@@ -1,8 +1,9 @@
 {
   "name": "sgrep",
-  "version": "1.0.0-3",
+  "version": "1.0.0-2",
   "preferGlobal": true,
   "description": "sgrep",
+  "bin": "./build/Release/sgrep",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
