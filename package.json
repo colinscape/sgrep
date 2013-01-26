@@ -1,6 +1,6 @@
 {
   "name": "sgrep",
-  "version": "1.0.0-1",
+  "version": "1.0.0-2",
   "preferGlobal": true,
   "description": "sgrep",
   "main": "bin/sgrep",
