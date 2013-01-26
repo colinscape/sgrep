@@ -1,4 +1,0 @@
-sgrep
-=====
-
-Sorted grep.

@@ -1,0 +1,126 @@
+<html>
+<head>
+<title>sgrep (sorted grep)</title>
+</head>
+<body>
+<h2>Introduction</h2>
+<p>
+Sgrep (sorted grep) searches sorted input files for lines that
+match a search key and outputs the matching lines.
+When searching large files sgrep is much faster
+than traditional Unix grep, but with significant restrictions.
+<ul>
+<li>
+  All input files must be sorted regular files.
+</li>
+<li>
+  The sort key must start at the beginning of the line.
+</li>
+<li>
+  The search key matches only at the beginning of the line.
+</li>
+<li>
+  No regular expression support.
+</li>
+</ul>
+</p>
+<p>
+Sgrep uses a binary search algorithm, which is very fast, but
+requires sorted input.  Each iteration of the search eliminates
+half of the remaining input.  In other words, doubling the size
+of the file adds just one iteration.
+</p>
+<h2>Syntax</h2>
+<p>
+sgrep [ -i | -n ] [ -c ] [ -b ] [ -r ] [ -- ] <i>key</i>
+[ <i>sorted_file</i> ... ]
+</p>
+<h2>Command Arguments</h2>
+<dl>
+<dt> -i (or -f) </dt>
+<dd>
+By default sgrep uses exact byte comparison.  The -i flag (or -f)
+causes sgrep to use case insensitive byte comparison.
+For example <b>aa</b> matches <b>AA</b> or <b>aA</b>, etc.
+The input file must be sorted with <b>sort&nbsp;-f</b>.
+</dd>
+<dt> -n </dt>
+<dd>
+The -n flag causes sgrep to use numeric comparison.  The input file
+must be sorted with <b>sort -n</b>.  Each line of the file should
+begin with optional white space and a numeric text string such as
+<b>055</b> or <b>-27</b> or <b>73.57</b>.  Sgrep compares the floating point
+value of the numeric string with the floating point value of the
+search key.  For example, the search key <b>10</b> matches <b>10.0</b>,
+<b>010</b>, <b>010.00</b>, etc.  Non numeric text strings have the value
+zero.  The numeric search key may optionally be followed by a
+colon and a second number, which specifies a range for the key,
+such as <b>10.0:10.999</b>.
+</dd>
+<dt> -b </dt>
+<dd>
+The -b flag causes sgrep to ignore leading white space at the
+beginning of a line and at the beginning of the search key.
+The input file must be sorted with <b>sort&nbsp;-b</b>.
+</dd>
+<dt> -c </dt>
+<dd>
+By default sgrep outputs all lines where the search key matches
+the beginning of the line.  The -c flag causes sgrep to output
+the number of matching lines.
+</dd>
+<dt> -r </dt>
+<dd>
+The -r flag specifies that the input file is sorted in reverse
+(descending) order using <b>sort&nbsp;-r</b>.
+</dd>
+<dt> -- </dt>
+<dd>
+The -- flag terminates the option flags and the next argument
+is used as the search key.  You need to use -- if the search
+key begins with <b>-</b>, such as
+<b>sgrep&nbsp;-n&nbsp;--&nbsp;-25&nbsp;file</b>
+</dd>
+</dl>
+<p>
+If no input files are specified, then sgrep uses stdin which
+must be a sorted regular file.  You cannot pipe into sgrep.
+</p>
+<h2>Locale Issues</h2>
+<p>
+Sgrep compares bytes using the native hardware byte order, so the file
+must be sorted accordingly.  You should set the environment
+variable <b>LC_ALL</b> to <b>C</b> before running sort or sgrep.
+For example,
+<pre>
+export LC_ALL=C
+sort -o sorted unsorted
+sgrep key sorted
+</pre>
+</p>
+<h2>Applications</h2>
+<p>
+Sgrep offers negligible speed improvement over traditional grep
+on files smaller than 100 KBytes, is measurably faster on
+files larger than a few MBytes, and is dramatically faster
+on files larger than 1 GByte.
+</p>
+<p>
+Sgrep searches large sorted files very efficiently.  But the
+overhead of sorting a very large file is considerable, so sgrep
+is most useful in situations where many searches are performed
+on the same file.
+</p>
+<p>
+Some files, such as system logs, are naturally output in
+chronological order.  If the date is output at the beginning
+of the line in a format such as <b>YYYY/MM/DD:hh:mm:ss</b>,
+then the file is already sorted and suitable for quick
+search by date using sgrep.
+</p>
+<h2>Author</h2>
+<p>
+Stephen C. Losen, University of Virginia
+</p>
+</body>
+</html>

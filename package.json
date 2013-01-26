@@ -1,0 +1,21 @@
+{
+  "name": "sgrep",
+  "version": "1.0.0",
+  "preferGlobal": true,
+  "description": "sgrep",
+  "main": "bin/sgrep",
+  "bin": "bin/sgrep",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "post-install": "cd src; make"
+  },
+  "repository": "",
+  "keywords": [
+    "sgrep",
+    "sorted",
+    "grep"
+  ],
+  "author": "Steve Losen",
+  "license": "GPL",
+  "readmeFilename": "README.html"
+}
