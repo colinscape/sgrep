@@ -7,7 +7,7 @@
   "bin": "bin/sgrep",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "post-install": "cd src; make"
+    "pre-install": "cd src; make"
   },
   "repository": "",
   "keywords": [
